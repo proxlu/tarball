@@ -1,0 +1,60 @@
+#!/bin/bash
+#
+# tarball - by: edu@bodhi
+
+case $1 in
+	h|help|-h|-help|--h|--help|H|-H|--H|HELP|-HELP|--HELP) echo "tarball - Instalador e criador de arquivo.tar.gz.
+
+  OPÇÃO:            USO:
+  Para instalar     tarball [arquivo].tar.gz
+  Para criar        tarball [diretório]
+  Para ajuda        tarball --help
+  Para versão       tarball --version
+  Para nulo         tarball --"
+	;;
+	v|version|-v|-version|--v|--version|V|-V|--V|VERSION|-VERSION|--VERSION) echo "tarball 1.0
+Copyright (C) 2018 Free Software Foundation, Inc.
+Licença GPLv3+: GNU GPL versão 3 ou posterior <https://gnu.org/licenses/gpl.html>
+Este é um software livre: você é livre para alterá-lo e redistribuí-lo.
+NÃO HÁ QUALQUER GARANTIA, na máxima extensão permitida em lei.
+
+Escrito por: edu@bodhi"
+	;;
+	g|gui|-g|-gui|--g|--gui|G|-G|--G|GUI|-GUI|--GUI) if [ -d "$*" ]
+then
+echo "$*.tar.gz está prestes a ser criado, continuar?
+[Enter]  Sim
+[Ctrl+C] Não"
+read
+sudo tar -czvf "$*".tar.gz "$*" && echo "
+$*.tar.gz criado em $(pwd)"
+echo '
+Pressione qualquer tecla para sair'
+read -n 1
+elif [ -f "$*" ]
+then
+echo "$* está prestes a ser instalado, continuar?
+[Enter]  Sim
+[Ctrl+C] Não"
+sudo tar -xzvf "$*" -C /opt && sudo rm "$*" && echo "
+$* instalado em /opt"
+echo '
+Pressione qualquer tecla para sair'
+read -n 1
+fi
+	;;
+	*) [ "$1" = "-" -o "$1" = "--" ] && shift
+if [ -z "$*" ]
+then
+tarball --help
+elif [ -d "$*" ]
+then
+sudo tar -czf "$*".tar.gz "$*" && echo "$*.tar.gz criado em $(pwd)"
+elif [ -f "$*" ]
+then
+sudo tar -xzf "$*" -C /opt && sudo rm "$*" && echo "$* instalado em /opt"
+else
+echo 'Arquivo/Diretório não encontrado'
+fi
+	;;
+esac
