@@ -37,7 +37,7 @@ echo "$* está prestes a ser instalado, continuar?
 [Enter]  Sim
 [Ctrl+C] Não"
 sudo tar -xzvf "$*" -C /opt && sudo rm "$*" && echo "
-$* instalado em /opt"
+$* foi deletado e instalado em /opt"
 echo '
 Pressione qualquer tecla para sair'
 read -n 1
@@ -52,7 +52,7 @@ then
 sudo tar -czf "$*".tar.gz "$*" && echo "$*.tar.gz criado em $(pwd)"
 elif [ -f "$*" ]
 then
-sudo tar -xzf "$*" -C /opt && sudo rm "$*" && echo "$* instalado em /opt"
+sudo tar -xzf "$*" -C /opt && sudo rm "$*" && echo "$* foi deletado e instalado em /opt"
 else
 echo 'Arquivo/Diretório não encontrado'
 fi
