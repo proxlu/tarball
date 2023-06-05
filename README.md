@@ -5,7 +5,9 @@ Descrição: Instalador e criador de *.tar.gz
 
 Instalação: sudo cp ./tarball /bin
 
-Uso: tarball --help
+Uso CLI: tarball --help
+
+Uso GUI: tarball.desktop "$@"
 
 Permissões: 777
 
