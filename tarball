@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# tarball - by: edu@bodhi
+# tarball - by: proxlu@debian
 
 case $1 in
 	h|help|-h|-help|--h|--help|H|-H|--H|HELP|-HELP|--HELP) echo "tarball - Instalador e criador de arquivo.tar.gz.
