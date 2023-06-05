@@ -1,0 +1,15 @@
+[Desktop Entry]
+NoDisplay=true
+Version=1.0
+Encoding=UTF-8
+Name=Tarball
+Comment=Instalador de tar.gz
+GenericName=Tarball
+Exec=x-terminal-emulator -e tarball gui %f
+Icon=gnome-package
+Terminal=false
+Type=Application
+Categories=GTK;Network;
+StartupNotify=false
+GenericName[en_US]=Tarball
+MimeType=inode/directory;application/x-compressed-tar
