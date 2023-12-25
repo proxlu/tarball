@@ -2,6 +2,13 @@
 #
 # tarball - by: proxlu@debian
 
+if ! test -w /opt
+then
+echo 'Esse programa precisa de permissão de escrita em /opt'
+sudo chmod a+w /opt||exit 1
+echo 'Permissão concedida'
+fi
+
 case $1 in
 	h|help|-h|-help|--h|--help|H|-H|--H|HELP|-HELP|--HELP) echo "tarball - Instalador e criador de arquivo.tar.gz/xz.
 
@@ -20,15 +27,16 @@ NÃO HÁ QUALQUER GARANTIA, na máxima extensão permitida em lei.
 
 Escrito por: proxlu@debian"
 	;;
-	g|gui|-g|-gui|--g|--gui|G|-G|--G|GUI|-GUI|--GUI) if [ -d "$*" ]
+	g|gui|-g|-gui|--g|--gui|G|-G|--G|GUI|-GUI|--GUI) shift
+if [ -d "$*" ]
 then
 echo "$*.tar.gz/xz e está prestes a ser criado, continuar?
 [Enter]  Sim
 [Ctrl+C] Não"
 read
-sudo tar -czvf "$*".tar.gz "$*" && echo "
+tar -czvf "$*".tar.gz "$*" && echo "
 $*.tar.gz criado em $(pwd)"
-sudo tar -cJvf "$*".tar.xz "$*" && echo "
+tar -cJvf "$*".tar.xz "$*" && echo "
 $*.tar.xz criado em $(pwd)"
 echo '
 Pressione qualquer tecla para sair'
@@ -38,7 +46,8 @@ then
 echo "$* está prestes a ser instalado, continuar?
 [Enter]  Sim
 [Ctrl+C] Não"
-sudo tar -xJvf "$*" -C /opt && sudo rm "$*" && echo "
+read
+tar -xJvf "$*" -C /opt && rm "$*" && echo "
 $* foi deletado e instalado em /opt"
 echo '
 Pressione qualquer tecla para sair'
@@ -48,7 +57,8 @@ then
 echo "$* está prestes a ser instalado, continuar?
 [Enter]  Sim
 [Ctrl+C] Não"
-sudo tar -xzvf "$*" -C /opt && sudo rm "$*" && echo "
+read
+tar -xzvf "$*" -C /opt && rm "$*" && echo "
 $* foi deletado e instalado em /opt"
 echo '
 Pressione qualquer tecla para sair'
@@ -61,14 +71,14 @@ then
 $0 --help
 elif [ -d "$*" ]
 then
-sudo tar -czf "$*".tar.gz "$*" && echo "$*.tar.gz criado em $(pwd)"
-sudo tar -cJf "$*".tar.xz "$*" && echo "$*.tar.xz criado em $(pwd)"
+tar -czf "$*".tar.gz "$*" && echo "$*.tar.gz criado em $(pwd)"
+tar -cJf "$*".tar.xz "$*" && echo "$*.tar.xz criado em $(pwd)"
 elif [ -f "$*" ] && echo "$*" | grep -q "\.tar\.xz$"
 then
-sudo tar -xJf "$*" -C /opt && sudo rm "$*" && echo "$* foi deletado e instalado em /opt"
+tar -xJf "$*" -C /opt && rm "$*" && echo "$* foi deletado e instalado em /opt"
 elif [ -f "$*" ]
 then
-sudo tar -xzf "$*" -C /opt && sudo rm "$*" && echo "$* foi deletado e instalado em /opt"
+tar -xzf "$*" -C /opt && rm "$*" && echo "$* foi deletado e instalado em /opt"
 else
 echo 'Arquivo/Diretório não encontrado'
 fi
