@@ -12,4 +12,4 @@ Type=Application
 Categories=GTK;Network;
 StartupNotify=false
 GenericName[en_US]=Tarball
-MimeType=inode/directory;application/x-compressed-tar
+MimeType=inode/directory;application/x-compressed-tar;application/x-xz
