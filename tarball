@@ -3,7 +3,7 @@
 # tarball - by: proxlu@debian
 
 case $1 in
-	h|help|-h|-help|--h|--help|H|-H|--H|HELP|-HELP|--HELP) echo "tarball - Instalador e criador de arquivo.tar.gz.
+	h|help|-h|-help|--h|--help|H|-H|--H|HELP|-HELP|--HELP) echo "tarball - Instalador e criador de arquivo.tar.gz/xz.
 
   OPÇÃO:            USO:
   Para instalar     tarball [arquivo].tar.gz
@@ -18,16 +18,28 @@ Licença GPLv3+: GNU GPL versão 3 ou posterior <https://gnu.org/licenses/gpl.ht
 Este é um software livre: você é livre para alterá-lo e redistribuí-lo.
 NÃO HÁ QUALQUER GARANTIA, na máxima extensão permitida em lei.
 
-Escrito por: edu@bodhi"
+Escrito por: proxlu@debian"
 	;;
 	g|gui|-g|-gui|--g|--gui|G|-G|--G|GUI|-GUI|--GUI) if [ -d "$*" ]
 then
-echo "$*.tar.gz está prestes a ser criado, continuar?
+echo "$*.tar.gz/xz e está prestes a ser criado, continuar?
 [Enter]  Sim
 [Ctrl+C] Não"
 read
 sudo tar -czvf "$*".tar.gz "$*" && echo "
 $*.tar.gz criado em $(pwd)"
+sudo tar -cJvf "$*".tar.xz "$*" && echo "
+$*.tar.xz criado em $(pwd)"
+echo '
+Pressione qualquer tecla para sair'
+read -n 1
+elif [ -f "$*" ] && echo "$1" | grep -q "\.tar\.xz$"
+then
+echo "$* está prestes a ser instalado, continuar?
+[Enter]  Sim
+[Ctrl+C] Não"
+sudo tar -xJvf "$*" -C /opt && sudo rm "$*" && echo "
+$* foi deletado e instalado em /opt"
 echo '
 Pressione qualquer tecla para sair'
 read -n 1
@@ -46,10 +58,14 @@ fi
 	*) [ "$1" = "-" -o "$1" = "--" ] && shift
 if [ -z "$*" ]
 then
-tarball --help
+$0 --help
 elif [ -d "$*" ]
 then
 sudo tar -czf "$*".tar.gz "$*" && echo "$*.tar.gz criado em $(pwd)"
+sudo tar -cJf "$*".tar.xz "$*" && echo "$*.tar.xz criado em $(pwd)"
+elif [ -f "$*" ] && echo "$*" | grep -q "\.tar\.xz$"
+then
+sudo tar -xJf "$*" -C /opt && sudo rm "$*" && echo "$* foi deletado e instalado em /opt"
 elif [ -f "$*" ]
 then
 sudo tar -xzf "$*" -C /opt && sudo rm "$*" && echo "$* foi deletado e instalado em /opt"
